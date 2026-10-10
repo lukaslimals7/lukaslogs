@@ -66,8 +66,10 @@
   nav button:hover,nav button:focus-visible{opacity:1;border-bottom-color:var(--ink);outline:none}
   @media(max-width:640px){
     header .brand{display:none}
-    nav{width:100%;justify-content:space-between;gap:8px}
-    nav button{font-size:10px;letter-spacing:.12em}
+    header{padding-top:calc(14px + env(safe-area-inset-top))}
+    nav{width:100%;justify-content:space-between;gap:6px}
+    /* touch-friendly: 44px minimum hit area on every nav item */
+    nav button{font-size:11px;letter-spacing:.08em;padding:16px 2px;min-height:44px}
   }
 
   /* ---------- hero (the one screen) ---------- */
@@ -81,7 +83,7 @@
     max-width:36ch;
     font-size:clamp(13px,1.4vw,16px);
     letter-spacing:.02em;
-    text-shadow:0 1px 10px rgba(0,0,0,.8);
+    text-shadow:0 1px 12px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.65);
     text-wrap:pretty;
   }
   .wordmark{
@@ -112,6 +114,12 @@
     .hero{padding-top:calc(56px + var(--pad))}
     .hero-tag{font-size:13px}
     .wordmark{margin:.08em 0 .03em}
+  }
+  /* landscape phones: keep touch targets reachable even when short */
+  @media(max-height:500px) and (min-width:641px){
+    nav button{padding:12px 2px;min-height:44px}
+    .hero-foot a{display:inline-block;padding:11px 0}
+    .hero-foot{font-size:12px}
   }
 
   /* ---------- panels (content without scrolling the page) ---------- */
@@ -205,6 +213,27 @@
     border-bottom:1px solid var(--line);padding-bottom:6px;transition:border-color .25s;
   }
   .contact-grid a:hover{border-color:var(--ink)}
+
+  /* ---------- small screens: overrides placed AFTER base rules on purpose ----------
+     (same specificity — later position wins; putting them earlier silently breaks) */
+  @media(max-width:640px){
+    .hero{padding-top:calc(70px + var(--pad) + env(safe-area-inset-top));
+          padding-bottom:calc(var(--pad) + env(safe-area-inset-bottom))}
+    .hero-tag{font-size:15px;max-width:32ch;
+              text-shadow:0 1px 12px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.7)}
+    .wordmark{font-size:clamp(56px,19vw,118px);margin:.10em 0 .04em}
+    .hero-foot{font-size:12px;letter-spacing:.12em}
+    .hero-foot .links{gap:clamp(14px,5vw,26px)}
+    .hero-foot a{display:inline-block;padding:13px 0}
+    #clock{font-size:12px;opacity:.85}
+    .panel-inner{padding-top:calc(clamp(24px,5vh,60px) + env(safe-area-inset-top));
+                 padding-bottom:calc(clamp(30px,6vh,70px) + env(safe-area-inset-bottom))}
+    .panel-head .close{padding:12px 18px;min-height:44px}
+    .panel h2{font-size:clamp(30px,9vw,48px)}
+    .rows li a,.rows li .static{padding:20px 0;min-height:44px}
+    .posts li a{padding:18px 0;min-height:44px}
+    .contact-grid a,.link-line{padding-top:8px;min-height:44px;display:inline-flex;align-items:center}
+  }
 
   .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
   .in .rv{opacity:1;transform:none}
