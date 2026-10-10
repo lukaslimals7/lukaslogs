@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lukas Lima — Security, Local AI &amp; Systems Built End-to-End</title>
+<meta name="description" content="Personal portfolio of Lukas Lima (LukasLogs) — offensive security, Linux, local LLMs, agentic AI. Projects, writing, and life.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#eceae5;
+    --muted:#a5a29a;
+    --line:rgba(236,234,229,.22);
+    --line-soft:rgba(236,234,229,.12);
+    --serif:"Bodoni Moda","Didot","Bodoni MT",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --pad:clamp(20px,4vw,56px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:#0a0a0a;
+    color:var(--ink);
+    font-family:var(--mono);
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;               /* single screen, never scrolls */
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- full-bleed background ---------- */
+  .bg{
+    position:fixed;inset:0;z-index:0;
+    background:url("assets/bg.webp") center center / cover no-repeat;
+  }
+  .bg::after{ /* legibility scrim: darkest where the text lives */
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(180deg,rgba(5,5,6,.55) 0%,rgba(5,5,6,.12) 30%,rgba(5,5,6,.15) 55%,rgba(5,5,6,.72) 100%),
+      linear-gradient(90deg,rgba(5,5,6,.45) 0%,rgba(5,5,6,0) 55%);
+  }
+  /* film grain */
+  body::after{
+    content:"";position:fixed;inset:-50%;
+    pointer-events:none;z-index:9;opacity:.07;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- frame ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:5;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:18px var(--pad);
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  }
+  header .brand{font-weight:500;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+  nav{display:flex;gap:clamp(12px,2.4vw,34px)}
+  nav button{
+    background:none;border:0;cursor:pointer;font:inherit;letter-spacing:inherit;
+    text-transform:inherit;color:var(--ink);opacity:.75;padding:6px 0;
+    border-bottom:1px solid transparent;transition:opacity .25s,border-color .25s;
+  }
+  nav button:hover,nav button:focus-visible{opacity:1;border-bottom-color:var(--ink);outline:none}
+  @media(max-width:640px){
+    header .brand{display:none}
+    nav{width:100%;justify-content:space-between;gap:8px}
+    nav button{font-size:10px;letter-spacing:.12em}
+  }
+
+  /* ---------- hero (the one screen) ---------- */
+  .hero{
+    position:relative;z-index:2;
+    height:100svh;
+    display:flex;flex-direction:column;justify-content:space-between;
+    padding:calc(64px + var(--pad)) var(--pad) var(--pad);
+  }
+  .hero-tag{
+    max-width:36ch;
+    font-size:clamp(13px,1.4vw,16px);
+    letter-spacing:.02em;
+    text-shadow:0 1px 10px rgba(0,0,0,.8);
+    text-wrap:pretty;
+  }
+  .wordmark{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(48px,min(15.5vw,21vh),230px);
+    line-height:.92;
+    letter-spacing:.015em;
+    text-transform:uppercase;
+    text-shadow:0 2px 0 rgba(0,0,0,.5),0 22px 60px rgba(0,0,0,.6);
+    margin:.14em 0 .05em;
+    text-wrap:balance;
+    pointer-events:none;
+  }
+  .hero-foot{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    text-shadow:0 1px 8px rgba(0,0,0,.8);
+    flex-wrap:wrap;
+  }
+  .hero-foot .links{display:flex;gap:clamp(14px,3vw,34px);flex-wrap:wrap}
+  .hero-foot a{opacity:.85;transition:opacity .25s;border-bottom:1px solid transparent;padding-bottom:3px}
+  .hero-foot a:hover{opacity:1;border-bottom-color:var(--ink)}
+  #clock{opacity:.7}
+  @media(max-height:720px){
+    .hero{padding-top:calc(56px + var(--pad))}
+    .hero-tag{font-size:13px}
+    .wordmark{margin:.08em 0 .03em}
+  }
+
+  /* ---------- panels (content without scrolling the page) ---------- */
+  .panel{
+    position:fixed;inset:0;z-index:8;
+    background:rgba(8,8,9,.955);
+    display:none;
+    overflow-y:auto;                /* only the open panel may scroll */
+    -webkit-overflow-scrolling:touch;
+  }
+  .panel.open{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .panel-inner{
+    min-height:100%;
+    display:flex;flex-direction:column;
+    padding:clamp(24px,5vh,60px) var(--pad) clamp(30px,6vh,70px);
+  }
+  .panel-head{
+    display:flex;justify-content:space-between;align-items:center;gap:20px;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+    border-bottom:1px solid var(--line-soft);padding-bottom:16px;margin-bottom:clamp(28px,6vh,64px);
+  }
+  .panel-head .close{
+    background:none;border:1px solid var(--line);color:var(--ink);
+    font:inherit;letter-spacing:.18em;cursor:pointer;
+    padding:8px 16px;border-radius:0;transition:background .25s,border-color .25s;
+  }
+  .panel-head .close:hover{background:rgba(236,234,229,.1);border-color:var(--ink)}
+  .panel h2{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(34px,6vw,76px);line-height:1.05;letter-spacing:.01em;
+    margin-bottom:clamp(24px,5vh,50px);text-wrap:balance;
+  }
+  .cols{display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(26px,6vw,90px);align-items:start}
+  @media(max-width:820px){.cols{grid-template-columns:1fr}}
+  .prose{max-width:64ch;color:#cfcdc7}
+  .prose p+p{margin-top:1.05em}
+  .prose strong{color:var(--ink);font-weight:500}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+
+  /* lists inside panels */
+  .rows{list-style:none;border-top:1px solid var(--line)}
+  .rows li a,.rows li .static{
+    display:grid;grid-template-columns:58px minmax(0,1.1fr) minmax(0,1fr) 92px;
+    gap:clamp(12px,3vw,36px);align-items:baseline;
+    padding:16px 0;border-bottom:1px solid var(--line-soft);
+  }
+  .rows li a{transition:padding-left .3s,background .3s}
+  .rows li a:hover{padding-left:12px;background:rgba(236,234,229,.04)}
+  .rows .idx{font-size:11px;color:var(--muted);letter-spacing:.2em}
+  .rows .title{font-family:var(--serif);font-size:clamp(20px,2.5vw,30px);line-height:1.15}
+  .rows .blurb{font-size:13px;color:var(--muted);line-height:1.55}
+  .rows .stack{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:right;white-space:nowrap}
+  .rows li a:hover .stack{color:var(--ink)}
+  @media(max-width:820px){
+    .rows li a,.rows li .static{grid-template-columns:40px 1fr}
+    .rows .blurb,.rows .stack{grid-column:2;text-align:left}
+  }
+  .posts{list-style:none;border-top:1px solid var(--line)}
+  .posts li a{
+    display:flex;justify-content:space-between;align-items:baseline;gap:18px;
+    padding:15px 0;border-bottom:1px solid var(--line-soft);transition:padding-left .3s;
+  }
+  .posts li a:hover{padding-left:12px}
+  .posts .ptitle{font-family:var(--serif);font-size:clamp(18px,2.1vw,25px);line-height:1.25}
+  .posts .go{font-size:11px;letter-spacing:.18em;color:var(--muted);white-space:nowrap}
+  .posts li a:hover .go{color:var(--ink)}
+
+  .link-line{
+    display:inline-flex;align-items:center;gap:12px;margin-top:26px;
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    border-bottom:1px solid var(--line);padding-bottom:6px;
+    transition:border-color .25s,gap .25s;
+  }
+  .link-line:hover{border-color:var(--ink);gap:18px}
+
+  /* life list */
+  .now{list-style:none;max-width:74ch}
+  .now li{
+    display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:baseline;
+    padding:14px 0;border-bottom:1px solid var(--line-soft);
+  }
+  .now .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .now .v{font-family:var(--serif);font-size:clamp(17px,2vw,23px);line-height:1.4}
+  @media(max-width:640px){.now li{grid-template-columns:1fr;gap:4px}}
+
+  /* contact links */
+  .contact-grid{display:flex;flex-wrap:wrap;gap:clamp(18px,4vw,48px)}
+  .contact-grid a{
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    border-bottom:1px solid var(--line);padding-bottom:6px;transition:border-color .25s;
+  }
+  .contact-grid a:hover{border-color:var(--ink)}
+
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .in .rv{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    .panel.open{animation:none}
+  }
+  ::selection{background:#eceae5;color:#0a0a0a}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true"></div>
+
+<header>
+  <a class="brand" href="#top">LukasLogs</a>
+  <nav>
+    <button data-panel="about">About</button>
+    <button data-panel="projects">Projects</button>
+    <button data-panel="writing">Writing</button>
+    <button data-panel="life">Life</button>
+    <button data-panel="contact">Contact</button>
+  </nav>
+</header>
+
+<!-- ===================== THE ONE SCREEN ===================== -->
+<div class="hero" id="top">
+  <p class="hero-tag">I build and break things — mostly at 3&nbsp;a.m.</p>
+
+  <h1 class="wordmark">Lukas<br>Lima</h1>
+
+  <div class="hero-foot">
+    <span class="links">
+      <a href="https://lukaslogs.gitbook.io/lukaslogs" target="_blank" rel="noopener">Blog ↗</a>
+      <a href="https://github.com/lukaslimals7" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/lukas-lima-7235b2334/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </span>
+    <span id="clock">—</span>
+  </div>
+</div>
+
+<!-- ===================== PANELS ===================== -->
+
+<div class="panel" id="panel-about" role="dialog" aria-modal="true" aria-label="About">
+  <div class="panel-inner">
+    <div class="panel-head"><span>01 / About</span><button class="close">Close ×</button></div>
+    <div class="cols">
+      <h2>Whoami</h2>
+      <div class="prose rv">
+        <p>I'm Lukas. I'm someone who runs on coffee, a good workout, and an endless
+        curiosity about how things work. I love exploring, whether it's a new place,
+        a new idea, or a rabbit hole I had no business going down at 3&nbsp;a.m.</p>
+        <p>When I'm not working, I'm gaming, drawing, watching anime, or reading poems
+        that make ordinary moments feel a little more cinematic.</p>
+        <p>I romanticize pretty much everything: the first sip of coffee, a sweaty last
+        rep, a quiet night with a controller in hand. That's just how I see the world.</p>
+        <p style="margin-top:1.6em;color:var(--muted);font-size:13px">
+        By day: <strong style="color:var(--ink)">Gyaanix</strong>, security labs, and
+        writing at <a href="https://lukaslogs.gitbook.io/lukaslogs" target="_blank" rel="noopener" style="border-bottom:1px solid var(--line)">LukasLogs</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-projects" role="dialog" aria-modal="true" aria-label="Projects">
+  <div class="panel-inner">
+    <div class="panel-head"><span>02 / Projects</span><button class="close">Close ×</button></div>
+    <h2>Things that run.</h2>
+    <ul class="rows rv">
+      <li><a href="https://github.com/lukaslimals7/llamacascade" target="_blank" rel="noopener">
+        <span class="idx">P/01</span>
+        <span class="title">llamacascade</span>
+        <span class="blurb">AI local swarm — plan → autonomous execution → review, entirely on local LLMs.</span>
+        <span class="stack">Python ↗</span>
+      </a></li>
+      <li><a href="https://github.com/lukaslimals7/codecoven" target="_blank" rel="noopener">
+        <span class="idx">P/02</span>
+        <span class="title">codecoven</span>
+        <span class="blurb">Pentesting &amp; CTF toolkit blending AI with traditional security tools in one interface.</span>
+        <span class="stack">Python ↗</span>
+      </a></li>
+      <li><a href="https://github.com/lukaslimals7/Desktop-Hardening" target="_blank" rel="noopener">
+        <span class="idx">P/03</span>
+        <span class="title">Desktop-Hardening</span>
+        <span class="blurb">Security hardening suite for Ubuntu, Linux Mint and Debian-based desktops.</span>
+        <span class="stack">Shell ↗</span>
+      </a></li>
+      <li><a href="https://github.com/lukaslimals7/Nmap-TUI-App" target="_blank" rel="noopener">
+        <span class="idx">P/04</span>
+        <span class="title">Nmap-TUI-App</span>
+        <span class="blurb">A terminal UI for running and reading nmap scans without drowning in output.</span>
+        <span class="stack">Python ↗</span>
+      </a></li>
+      <li><a href="https://github.com/lukaslimals7/Questlogs" target="_blank" rel="noopener">
+        <span class="idx">P/05</span>
+        <span class="title">Questlogs</span>
+        <span class="blurb">RPG-style habit tracker — turning daily tasks into a quest log.</span>
+        <span class="stack">HTML ↗</span>
+      </a></li>
+      <li><a href="https://github.com/lukaslimals7" target="_blank" rel="noopener">
+        <span class="idx">P/06</span>
+        <span class="title">All repositories</span>
+        <span class="blurb">Everything else — and whatever's cooking.</span>
+        <span class="stack">GitHub ↗</span>
+      </a></li>
+    </ul>
+    <p class="kicker rv" style="margin-top:34px">Currently building — Gyaanix</p>
+  </div>
+</div>
+
+<div class="panel" id="panel-writing" role="dialog" aria-modal="true" aria-label="Writing">
+  <div class="panel-inner">
+    <div class="panel-head"><span>03 / Writing</span><button class="close">Close ×</button></div>
+    <div class="cols" style="margin-bottom:clamp(24px,4vh,44px)">
+      <h2>LukasLogs</h2>
+      <div class="prose rv"><p>Security and tech stuff — notes from tinkering: labs, vulnerabilities, local AI, and whatever broke this week.</p></div>
+    </div>
+    <ul class="posts rv">
+      <li><a href="https://lukaslogs.gitbook.io/lukaslogs/security-and-tech-stuff/setting-up-a-lab-for-pentesting" target="_blank" rel="noopener">
+        <span class="ptitle">Setting up a lab for pentesting</span><span class="go">Read ↗</span></a></li>
+      <li><a href="https://lukaslogs.gitbook.io/lukaslogs/security-and-tech-stuff/critical-security-flaw-in-pymatgen-library" target="_blank" rel="noopener">
+        <span class="ptitle">Critical security flaw in the Pymatgen library</span><span class="go">Read ↗</span></a></li>
+      <li><a href="https://lukaslogs.gitbook.io/lukaslogs/security-and-tech-stuff/lets-make-our-own-jarvis-friday" target="_blank" rel="noopener">
+        <span class="ptitle">Let's make our own JARVIS/FRIDAY</span><span class="go">Read ↗</span></a></li>
+      <li><a href="https://lukaslogs.gitbook.io/lukaslogs/security-and-tech-stuff/personal-local-ai-assistant-with-ollama-and-fast-mcp." target="_blank" rel="noopener">
+        <span class="ptitle">Personal local AI assistant with Ollama &amp; Fast-MCP</span><span class="go">Read ↗</span></a></li>
+      <li><a href="https://lukaslogs.gitbook.io/lukaslogs/security-and-tech-stuff/why-devs-should-avoid-hard-coded-tokens" target="_blank" rel="noopener">
+        <span class="ptitle">Why devs should avoid hard-coded tokens</span><span class="go">Read ↗</span></a></li>
+    </ul>
+    <a class="link-line rv" href="https://lukaslogs.gitbook.io/lukaslogs" target="_blank" rel="noopener">All posts ↗</a>
+  </div>
+</div>
+
+<div class="panel" id="panel-life" role="dialog" aria-modal="true" aria-label="Life">
+  <div class="panel-inner">
+    <div class="panel-head"><span>04 / Life</span><button class="close">Close ×</button></div>
+    <div class="cols">
+      <h2>Off duty</h2>
+      <div class="rv">
+        <p class="prose" style="margin-bottom:26px">I romanticize pretty much everything: the first sip of coffee, a sweaty
+        last rep, a quiet night with a controller in hand. That's just how I see the world.</p>
+        <ul class="now">
+          <li><span class="k">Fuel</span><span class="v">Coffee — the first sip counts the most.</span></li>
+          <li><span class="k">Reset</span><span class="v">Workouts. The last rep is the point.</span></li>
+          <li><span class="k">Controller</span><span class="v">Gaming, usually on quiet nights.</span></li>
+          <li><span class="k">Paper</span><span class="v">Drawing, and poems that make ordinary moments feel cinematic.</span></li>
+          <li><span class="k">Screen</span><span class="v">Anime.</span></li>
+          <li><span class="k">Hours</span><span class="v">Rabbit holes I had no business going down at 3 a.m.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-contact" role="dialog" aria-modal="true" aria-label="Contact">
+  <div class="panel-inner">
+    <div class="panel-head"><span>05 / Contact</span><button class="close">Close ×</button></div>
+    <div class="cols" style="margin-bottom:clamp(26px,5vh,50px)">
+      <h2>Say hi.</h2>
+      <div class="prose rv"><p>Argue with an idea, send a write-up to fix, or just share the rabbit hole you went down last night.</p></div>
+    </div>
+    <div class="contact-grid rv">
+      <a href="https://github.com/lukaslimals7" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/lukas-lima-7235b2334/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://lukaslogs.gitbook.io/lukaslogs" target="_blank" rel="noopener">Blog ↗</a>
+      <a href="mailto:lukaslima.xix@gmail.com">Email ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // local clock
+  const clock = document.getElementById('clock');
+  const tick = () => {
+    clock.textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + ' LOCAL';
+  };
+  tick(); setInterval(tick, 30000);
+
+  // panel open/close — the page itself never scrolls
+  const panels = {};
+  document.querySelectorAll('.panel').forEach(p => panels[p.id.replace('panel-','')] = p);
+  let lastTrigger = null;
+
+  function openPanel(name, trigger){
+    const p = panels[name];
+    if(!p) return;
+    lastTrigger = trigger || null;
+    p.classList.add('open');
+    p.scrollTop = 0;
+    requestAnimationFrame(() => p.classList.add('in'));
+    const btn = p.querySelector('.close');
+    if(btn) btn.focus();
+  }
+  function closePanels(){
+    document.querySelectorAll('.panel.open').forEach(p => {
+      p.classList.remove('open'); p.classList.remove('in');
+    });
+    if(lastTrigger){ lastTrigger.focus(); lastTrigger = null; }
+  }
+
+  document.querySelectorAll('nav button').forEach(b => {
+    b.addEventListener('click', () => openPanel(b.dataset.panel, b));
+  });
+  document.querySelectorAll('.panel .close').forEach(b => b.addEventListener('click', closePanels));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closePanels(); });
+  // click the empty margins of a panel closes it (but not clicks on content)
+  document.querySelectorAll('.panel').forEach(p => {
+    p.addEventListener('click', e => { if(e.target === p) closePanels(); });
+  });
+</script>
+</body>
+</html>
