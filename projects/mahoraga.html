@@ -93,6 +93,16 @@
   .lede{max-width:62ch;margin-top:26px;font-size:clamp(15px,1.6vw,17px);color:#cfcdc7}
   .lede strong{color:var(--ink);font-weight:500}
 
+  .wheel-anim{margin:clamp(30px,5vh,52px) 0 0;text-align:center}
+  .wheel-anim img{
+    width:100%;max-width:560px;height:auto;display:inline-block;
+    /* graded so its black matches the page — floats with no frame */
+  }
+  .wheel-anim figcaption{
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);margin-top:14px;
+  }
+
   .stats{
     display:flex;flex-wrap:wrap;gap:0;
     border-top:1px solid var(--line);border-bottom:1px solid var(--line);
@@ -193,6 +203,11 @@
   <p class="lede">A <strong>minimal, local, extensible AI agent in pure Python</strong>.
   Zero external dependencies. Hermes has 8,442 Python files — Mahoraga has ~30.
   The core loop is 50 lines.</p>
+
+  <figure class="wheel-anim">
+    <img src="../assets/mahoraga-wheel.gif" alt="The Mahoraga dharma wheel turning">
+    <figcaption>the wheel never stops turning</figcaption>
+  </figure>
 
   <div class="stats">
     <div><div class="n">50</div><div class="k">lines in the core loop</div></div>
