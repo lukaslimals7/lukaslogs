@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahoraga — the adaptive agent · Lukas Lima</title>
+<meta name="description" content="Mahoraga — a minimal, local, extensible AI agent in pure Python. Zero external dependencies. The tool loop is 50 lines.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lukasat3am.vercel.app/projects/mahoraga.html">
+<meta property="og:title" content="Mahoraga — the adaptive agent">
+<meta property="og:description" content="A minimal, local, extensible AI agent in pure Python. Zero external dependencies.">
+<meta property="og:image" content="https://lukasat3am.vercel.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mahoraga — the adaptive agent">
+<meta name="twitter:description" content="A minimal, local, extensible AI agent in pure Python. Zero external dependencies.">
+<meta name="twitter:image" content="https://lukasat3am.vercel.app/assets/og.jpg">
+<link rel="icon" href="../assets/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+<meta name="theme-color" content="#111110">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#eceae5;
+    --muted:#a5a29a;
+    --line:rgba(236,234,229,.22);
+    --line-soft:rgba(236,234,229,.12);
+    --serif:"Bodoni Moda","Didot","Bodoni MT",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --pad:clamp(20px,4vw,56px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#0a0a0a;
+    color:var(--ink);
+    font-family:var(--mono);
+    font-size:15px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* fixed backdrop, same photo, drowned almost completely for reading */
+  .bg{
+    position:fixed;inset:0;z-index:0;
+    background:url("../assets/bg.webp") center center / cover no-repeat;
+    opacity:.22;
+  }
+  .bg::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,10,10,.82) 0%,rgba(10,10,10,.92) 40%,rgba(10,10,10,.97) 100%);
+  }
+  body::after{ /* film grain */
+    content:"";position:fixed;inset:-50%;
+    pointer-events:none;z-index:9;opacity:.07;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  header{
+    position:relative;z-index:5;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:18px var(--pad);
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    border-bottom:1px solid var(--line-soft);
+  }
+  header .brand{font-weight:500}
+  header nav{display:flex;gap:clamp(12px,2.4vw,34px)}
+  header nav a{
+    opacity:.75;padding:14px 2px;min-height:44px;display:inline-flex;align-items:center;
+    border-bottom:1px solid transparent;transition:opacity .25s,border-color .25s;
+  }
+  header nav a:hover{opacity:1;border-bottom-color:var(--ink)}
+
+  main{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:clamp(34px,7vh,72px) var(--pad) clamp(50px,9vh,96px)}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+  h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(52px,11vw,118px);line-height:.98;letter-spacing:.012em;
+    text-transform:uppercase;
+    text-shadow:0 2px 0 rgba(0,0,0,.5),0 22px 60px rgba(0,0,0,.6);
+    text-wrap:balance;
+  }
+  .tagline{
+    font-family:var(--serif);font-size:clamp(20px,3.2vw,32px);line-height:1.3;
+    color:var(--ink);margin-top:18px;text-wrap:pretty;
+  }
+  .lede{max-width:62ch;margin-top:26px;font-size:clamp(15px,1.6vw,17px);color:#cfcdc7}
+  .lede strong{color:var(--ink);font-weight:500}
+
+  .stats{
+    display:flex;flex-wrap:wrap;gap:0;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin:clamp(30px,5vh,48px) 0;
+  }
+  .stats div{
+    flex:1 1 150px;padding:18px 18px 18px 0;
+    border-right:1px solid var(--line-soft);
+  }
+  .stats div:last-child{border-right:0}
+  .stats .n{font-family:var(--serif);font-size:clamp(26px,4vw,40px);line-height:1}
+  .stats .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+  section{margin-top:clamp(38px,7vh,64px)}
+  .sec-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  h2{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(28px,5vw,46px);line-height:1.08;letter-spacing:.01em;
+    margin-bottom:20px;text-wrap:balance;
+  }
+  .prose{max-width:64ch;color:#cfcdc7}
+  .prose p+p{margin-top:1.05em}
+  .prose strong{color:var(--ink);font-weight:500}
+  .prose code{
+    font-family:var(--mono);font-size:.88em;color:var(--ink);
+    background:rgba(236,234,229,.08);padding:1px 6px;
+  }
+
+  pre{
+    background:rgba(236,234,229,.05);
+    border:1px solid var(--line-soft);
+    border-left:2px solid var(--line);
+    padding:18px 20px;overflow-x:auto;
+    font-family:var(--mono);font-size:12.5px;line-height:1.75;
+    color:#d8d6cf;margin-top:20px;
+  }
+  pre code{background:none;padding:0;font-size:inherit;color:inherit}
+
+  .btn-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:30px}
+  .btn{
+    display:inline-flex;align-items:center;gap:12px;
+    min-height:44px;padding:12px 22px;
+    border:1px solid var(--line);
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    transition:background .25s,border-color .25s,gap .25s;
+  }
+  .btn:hover{background:rgba(236,234,229,.1);border-color:var(--ink);gap:18px}
+
+  .quote{
+    font-family:var(--serif);font-size:clamp(20px,3.2vw,30px);line-height:1.35;
+    color:var(--ink);border-left:2px solid var(--line);
+    padding-left:clamp(16px,3vw,28px);margin-top:26px;text-wrap:pretty;
+  }
+
+  footer{
+    position:relative;z-index:2;
+    border-top:1px solid var(--line);
+    margin-top:clamp(44px,8vh,80px);
+    padding:26px var(--pad) calc(30px + env(safe-area-inset-bottom));
+    display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  footer .links{display:flex;gap:clamp(14px,3vw,34px);flex-wrap:wrap}
+  footer a{opacity:.85;transition:opacity .25s;border-bottom:1px solid transparent;padding:12px 0;min-height:44px;display:inline-flex;align-items:center}
+  footer a:hover{opacity:1;border-bottom-color:var(--ink)}
+
+  @media(max-width:640px){
+    body{font-size:14.5px}
+    header{padding-top:calc(14px + env(safe-area-inset-top))}
+    header .brand{display:none}
+    header nav{width:100%;justify-content:space-between;gap:6px}
+    .stats div{flex:1 1 120px;border-right:0;border-bottom:1px solid var(--line-soft)}
+    .stats div:last-child{border-bottom:0}
+    pre{font-size:11.5px}
+  }
+  ::selection{background:#eceae5;color:#0a0a0a}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true"></div>
+
+<header>
+  <a class="brand" href="../index.html">LukasLogs</a>
+  <nav>
+    <a href="../index.html">← Home</a>
+    <a href="../index.html">Projects</a>
+    <a href="https://github.com/lukaslimals7/mahoraga" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="mailto:lukaslima.xix@gmail.com">Email</a>
+  </nav>
+</header>
+
+<main>
+  <p class="kicker">P/01 · Project · October 2026 · Python</p>
+  <h1>Mahoraga</h1>
+  <p class="tagline">the adaptive agent</p>
+
+  <p class="lede">A <strong>minimal, local, extensible AI agent in pure Python</strong>.
+  Zero external dependencies. Hermes has 8,442 Python files — Mahoraga has ~30.
+  The core loop is 50 lines.</p>
+
+  <div class="stats">
+    <div><div class="n">50</div><div class="k">lines in the core loop</div></div>
+    <div><div class="n">~30</div><div class="k">Python files total</div></div>
+    <div><div class="n">0</div><div class="k">external dependencies</div></div>
+    <div><div class="n">MIT</div><div class="k">fork it, break it</div></div>
+  </div>
+
+  <section>
+    <p class="sec-kicker">01 / What it is</p>
+    <h2>The whole thing is a loop.</h2>
+    <div class="prose">
+      <p>You send a message → the LLM thinks → if it wants a tool, it calls one →
+      you approve → results go back → it thinks again → until it has a real answer.
+      <strong>That's the whole thing. Everything else is decoration.</strong></p>
+      <p>A tool registry gives the model hands, a policy layer decides what runs
+      free and what asks first, and every turn is persisted to SQLite so the agent
+      remembers after a restart. That's the soul of an agent — the gateway, the
+      telemetry, the 8,000 files of glue were never part of it.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-kicker">02 / Architecture</p>
+    <h2>Small enough to hold in your head.</h2>
+    <div class="prose"><p>Every module has one job. The wheel at the top of the
+    terminal is, admittedly, decoration — but it's the important kind.</p></div>
+<pre><code>mahoraga/
+├── core/
+│   ├── loop.py        ← the agent loop (50 lines, the beating heart)
+│   ├── runtime.py     ← provider + tools + memory, wired
+│   ├── context.py     ← message history, token estimation, truncation
+│   ├── budget.py      ← turn/token/time budget — stops runaway loops
+│   └── wheel.py       ← Mahoraga dharma wheel animation (the spinner)
+├── llm/
+│   ├── openai_compat.py ← any /v1/chat/completions endpoint
+│   ├── provider.py    ← abstract provider interface
+│   ├── ollama.py / llama.py ← thin adapters
+├── tools/
+│   ├── registry.py    ← register, describe, execute tools
+│   ├── schema.py      ← auto-derive JSON schema from Python signatures
+│   └── executor.py    ← the safe path: approve → run → audit → cap
+├── plugins/           ← 8 built-in tools (read, search, shell, http, notes…)
+├── policy/            ← permissions, approval prompt, audit log
+├── memory/            ← every turn persisted, restored on next launch
+└── agent/             ← the TUI (ANSI, stdlib-only) + entry point</code></pre>
+  </section>
+
+  <section>
+    <p class="sec-kicker">03 / Extending it</p>
+    <h2>Add a tool in one function.</h2>
+    <div class="prose">
+      <p>Three ways, from simplest to most control — one function, a plugin file,
+      or an external plugin on top. The simplest is a plain Python function:</p>
+    </div>
+<pre><code>def my_tool(query: str, limit: int = 10) -> str:
+    """Search something custom."""
+    return f"found {limit} results for {query}"
+
+from mahoraga.tools.registry import Registry
+from mahoraga.tools.schema import auto_schema
+
+reg = Registry()
+desc, schema = auto_schema(my_tool)
+reg.register("my_tool", desc, schema, my_tool)</code></pre>
+    <div class="prose" style="margin-top:20px">
+      <p>And <strong>any brain fits</strong>. Point <code>~/.mahoraga/config.json</code>
+      at any OpenAI-compatible endpoint — a local llama.cpp server, Ollama, vLLM,
+      LM Studio, or a cloud API — and switch providers at runtime:</p>
+    </div>
+<pre><code>{
+  "base_url": "http://localhost:8080/v1",   // llama.cpp server
+  "model": "openbmb/MiniCPM5-2B-GGUF:Q4_K_M"
+}</code></pre>
+  </section>
+
+  <section>
+    <p class="sec-kicker">04 / Memory &amp; policy</p>
+    <h2>It remembers. It asks before it gets reckless.</h2>
+    <div class="prose">
+      <p>Every turn is stored in <code>~/.mahoraga/memory.db</code>. On next launch,
+      Mahoraga replays the last 30 messages into its context — a fresh session
+      never deletes the database.</p>
+      <p>Policy decides what runs free, what asks once, and what is refused
+      outright — with every tool call appended to an audit log. The philosophy:
+      <strong>run all the bash except genuinely dangerous commands</strong>, and
+      read, write, modify files freely.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-kicker">05 / Quick start</p>
+    <h2>Three commands.</h2>
+<pre><code># 1. copy the example config
+cp examples/config.example.json ~/.mahoraga/config.json
+# edit it: point base_url at your local LLM
+
+# 2. run
+python3 -m mahoraga
+
+# 3. yolo mode (skip approval prompts)
+python3 -m mahoraga --yolo</code></pre>
+    <div class="btn-row">
+      <a class="btn" href="https://github.com/lukaslimals7/mahoraga" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <a class="btn" href="https://github.com/lukaslimals7/mahoraga/blob/main/README.md" target="_blank" rel="noopener">Read the README ↗</a>
+    </div>
+    <p class="quote">MIT — fork it, break it, make it yours.</p>
+  </section>
+</main>
+
+<footer>
+  <span>© Lukas Lima — built at 3 a.m.</span>
+  <span class="links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/lukaslimals7/mahoraga" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="https://lukaslogs.gitbook.io/lukaslogs" target="_blank" rel="noopener">Blog ↗</a>
+    <a href="mailto:lukaslima.xix@gmail.com">Email</a>
+  </span>
+</footer>
+
+</body>
+</html>
