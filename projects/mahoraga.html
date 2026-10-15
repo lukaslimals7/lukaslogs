@@ -314,20 +314,23 @@ reg.register("my_tool", desc, schema, my_tool)</code></pre>
   </section>
 
   <section>
-    <p class="sec-kicker">05 / Quick start</p>
-    <h2>Three commands.</h2>
-<pre><code># 1. copy the example config
-cp examples/config.example.json ~/.mahoraga/config.json
-# edit it: point base_url at your local LLM
+    <p class="sec-kicker">05 / Get started</p>
+    <h2>Clone it. Run it.</h2>
+    <div class="prose">
+      <p>All you need is <strong>Python 3.10+</strong> and a real terminal — no
+      packages, no build step, nothing to install. Point it at any
+      OpenAI-compatible model (local llama.cpp or Ollama, or a cloud key in
+      <code>~/.mahoraga/.env</code>); the first run writes the config for you.</p>
+    </div>
+<pre><code>git clone https://github.com/lukaslimals7/mahoraga.git
+cd mahoraga
 
-# 2. run
-python3 -m mahoraga
-
-# 3. yolo mode (skip approval prompts)
-python3 -m mahoraga --yolo</code></pre>
+python3 tests/test_loop.py   # verify (no model needed)
+python3 -m mahoraga          # normal mode
+python3 -m mahoraga --yolo   # yolo mode — no prompts</code></pre>
     <div class="btn-row">
       <a class="btn" href="https://github.com/lukaslimals7/mahoraga" target="_blank" rel="noopener">View on GitHub ↗</a>
-      <a class="btn" href="https://github.com/lukaslimals7/mahoraga/blob/main/README.md" target="_blank" rel="noopener">Read the README ↗</a>
+      <a class="btn" href="https://github.com/lukaslimals7/mahoraga/blob/main/INSTALL.md" target="_blank" rel="noopener">Full install guide ↗</a>
     </div>
     <p class="quote">MIT — fork it, break it, make it yours.</p>
   </section>
