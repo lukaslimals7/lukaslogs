@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>desire to feel loved · Lukas</title>
+<meta name="description" content="If I'm meant to be alone, then take away the wanting. A note on carrying the desire for connection without letting it set your worth.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="desire to feel loved">
+<meta property="og:description" content="If I'm meant to be alone, then take away the wanting.">
+<meta property="og:image" content="https://lukasat3am.vercel.app/assets/love.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="desire to feel loved">
+<meta name="twitter:description" content="If I'm meant to be alone, then take away the wanting.">
+<meta name="twitter:image" content="https://lukasat3am.vercel.app/assets/love.webp">
+<link rel="icon" href="../assets/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+<meta name="theme-color" content="#111110">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#eceae5; --muted:#a5a29a;
+    --line:rgba(236,234,229,.22); --line-soft:rgba(236,234,229,.12);
+    --display:"Clash Display","Inter",sans-serif;
+    --serif:"Lora",Georgia,serif;
+    --sans:"Inter",system-ui,-apple-system,sans-serif;
+    --pad:clamp(20px,4vw,56px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0a0a0a;color:var(--ink);font-family:var(--sans);font-size:15px;
+       line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .bg{position:fixed;inset:0;z-index:0;background:url("../assets/bg.webp") center center / cover no-repeat;opacity:.18}
+  .bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,10,10,.86) 0%,rgba(10,10,10,.94) 45%,rgba(10,10,10,.98) 100%)}
+  body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:9;opacity:.06;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+  header{position:relative;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:18px var(--pad);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    border-bottom:1px solid var(--line-soft)}
+  header .brand{font-weight:500}
+  header nav{display:flex;gap:clamp(14px,3vw,30px)}
+  header nav a{opacity:.72;padding:14px 2px;min-height:44px;display:inline-flex;align-items:center;
+    border-bottom:1px solid transparent;transition:opacity .25s,border-color .25s}
+  header nav a:hover{opacity:1;border-bottom-color:var(--ink)}
+  main{position:relative;z-index:2;max-width:720px;margin:0 auto;
+       padding:clamp(38px,8vh,84px) var(--pad) clamp(56px,10vh,110px)}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+  h1{font-family:var(--display);font-weight:500;font-size:clamp(38px,8vw,78px);line-height:1.0;
+     letter-spacing:-.01em;margin-bottom:22px}
+  .lede{font-family:var(--serif);font-size:clamp(16px,2.2vw,19px);line-height:1.7;color:#cfcdc7;
+        max-width:46ch;font-style:italic;margin-bottom:clamp(30px,5vh,46px)}
+  figure{margin:0 0 clamp(34px,6vh,54px)}
+  figure img{width:100%;display:block;filter:saturate(.9) contrast(1.02)}
+  figcaption{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+             margin-top:12px}
+  .prose p{font-family:var(--serif);font-size:clamp(16px,1.9vw,17.5px);line-height:1.85;
+           color:#d2d0ca;margin:0 0 1.35em;max-width:62ch}
+  .prose p:first-of-type::first-letter{font-family:var(--display);font-size:3.1em;line-height:.86;
+           float:left;padding:.06em .12em 0 0;color:var(--ink)}
+  .prose em{font-style:italic;color:#e4e2dc}
+  blockquote{margin:clamp(30px,5vh,48px) 0;padding:22px 0 22px 24px;border-left:2px solid var(--line);
+             font-family:var(--display);font-weight:400;font-size:clamp(19px,2.8vw,26px);line-height:1.35;
+             color:#e7e4dd;max-width:34ch}
+  .sign{font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:clamp(34px,6vh,52px)}
+  footer{position:relative;z-index:2;border-top:1px solid var(--line-soft);
+         padding:22px var(--pad) 40px;display:flex;flex-wrap:wrap;gap:14px 26px;
+         justify-content:space-between;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  footer a{border-bottom:1px solid transparent;padding:12px 0;min-height:44px;display:inline-flex;align-items:center}
+  footer a:hover{color:var(--ink);border-bottom-color:var(--line)}
+  @media (max-width:640px){
+    h1{font-size:clamp(34px,12vw,52px)}
+    .prose p{font-size:16px;line-height:1.8}
+    blockquote{font-size:19px;padding-left:18px}
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<header>
+  <a class="brand" href="../index.html">Lukas Lima</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../writeups/index.html">Write-ups</a>
+  </nav>
+</header>
+
+<main>
+  <div class="kicker">Writing · 19 Oct 2026</div>
+  <h1>desire to feel&nbsp;loved</h1>
+  <p class="lede">If I'm meant to be alone, then take away the wanting. That's the part I can't carry — both at once.</p>
+
+  <figure>
+    <img src="../assets/love.webp" alt="A quiet anime still — a face turned away in low amber light.">
+    <figcaption>The thought that started this</figcaption>
+  </figure>
+
+  <article class="prose">
+    <p>The quiet room, the life I run on my own, the routine, all of it fine, and underneath this ache that never switches off.</p>
+
+    <p>It feels like a design flaw. Built with a hunger and put somewhere with nothing to eat. Wings, and a cage that never opens. If the answer is solitude, I can live with that. What I can't live with is wanting something this much and watching it walk past, every time.</p>
+
+    <p>I don't want the hope anymore. I don't want a scene in a film to put a hole in my chest. I don't want to walk past two people holding hands and wonder what that feels like when it's ordinary. If it isn't for me, strip the instinct out. Let me be cold. Let me sit in the quiet without waiting for someone who never comes.</p>
+
+    <p>We're told to be complete on our own. Love yourself first, don't need anyone. So you try. You build something you're proud of, you work on your head, you take yourself to dinner, you get through the bad nights without calling anyone. You do all of it right. And then the lights go off and the longing is still sitting there, patient.</p>
+
+    <p>Admitting that feels like failing some test. Like a big heart is a weakness. So you hide it: jokes about being single forever, pretending you like the quiet. That act is exhausting. Pretending not to care about the one thing we're built for wears out something in you that nobody sees.</p>
+
+    <p>What makes it heavy is how easy it looks for everyone else. People who don't even value it slide into relationships. People who treat each other badly get chosen again and again. You sit through the weddings and the housewarming dinners and the stories about date night, and you're happy for them, genuinely. Then you ride home, no music, wind in your face, and it lands properly. You start doing maths on yourself. What did they know that I didn't? Is there something about me that warns people off, too quiet, too much? You get tired of being the audience in everyone else's story while your own stage stays dark.</p>
+
+    <p>It isn't only the absence. It's the hope right before the disappointment. Three good weeks, then the energy drops off a cliff. People who say everything right and then slowly disappear, until you're looking at another message that never got answered.</p>
+
+    <p>Every false start costs something you don't get back. You rebuild the walls a little higher. You tell yourself that was the last time. Then someone shows a bit of warmth and the stubborn part of you opens up again anyway. Guarded, hopeful, wrecked, numb, on repeat. After a while you dread meeting anyone, because some part of you is already working out how much this one will hurt.</p>
+
+    <p>And people hand you the self-love speech. You can't expect someone to love you until you love yourself. As if that's the same thing. You can be steady in who you are, proud of what you've built, comfortable alone, and still want someone to reach for your hand.</p>
+
+    <blockquote>Self-love is the floor, not the furniture. Holding your own hand isn't the same as someone else's hand when you're overwhelmed.</blockquote>
+
+    <p>Telling a lonely person to love themselves more is a polite way of moving the pain back onto them. As if the isolation were their fault, as if a bit more healing would make love appear. Plenty of unhealed people are in happy relationships. Plenty of healed people are alone.</p>
+
+    <p>My real fear isn't staying single. It's what the waiting is doing to me. I can feel myself getting colder. A small ugly voice when someone mentions their partner: give it time, it won't last. I hate that voice. I don't want to become the person in the corner who resents other people's happiness because he never got his.</p>
+
+    <p>But you hold a door open for years and your arms get tired. The urge to slam it and bolt it from the inside gets stronger. I'm scared that when someone finally does show up, I'll be so used to the cold that warmth feels wrong, and I'll ruin the thing I waited for.</p>
+
+    <p>So if the wanting won't go, I have to carry it without letting it crush me. Let it sit in the background without setting my worth every day. I can want connection and still live the life in front of me now, whether or not anyone is standing next to me.</p>
+
+    <p>Build something full anyway. Friendships, the work, a room that feels like a place I chose instead of a sentence I'm serving. And if the choice is between being alone and begging for scraps from someone who doesn't see my value, alone keeps my self-respect.</p>
+
+    <p>I don't know how this ends. Maybe someone is around the corner, fighting their own version of this. Maybe not. Either way I have to stay here, in this life, not in a waiting room staring at the door, forgetting to live the one I was actually given.</p>
+
+    <p class="sign">— Lukas</p>
+  </article>
+</main>
+
+<footer>
+  <a href="../index.html">← Back home</a>
+  <a href="mailto:lukaslima.xix@gmail.com">lukaslima.xix@gmail.com</a>
+</footer>
+</body>
+</html>
