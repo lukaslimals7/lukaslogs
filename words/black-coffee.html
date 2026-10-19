@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>black coffee · Lukas</title>
+<meta name="description" content="Black coffee is supposed to be bitter. That's not a flaw in the drink, it's the drink — and most of what we call effort is just sugar.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="black coffee">
+<meta property="og:description" content="Not everything needs fixing. Not everything needs sugar.">
+<meta property="og:image" content="https://lukasat3am.vercel.app/assets/black-coffee.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="black coffee">
+<meta name="twitter:description" content="Not everything needs fixing. Not everything needs sugar.">
+<meta name="twitter:image" content="https://lukasat3am.vercel.app/assets/black-coffee.webp">
+<link rel="icon" href="../assets/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+<meta name="theme-color" content="#111110">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#eceae5; --muted:#a5a29a;
+    --line:rgba(236,234,229,.22); --line-soft:rgba(236,234,229,.12);
+    --display:"Clash Display","Inter",sans-serif;
+    --serif:"Lora",Georgia,serif;
+    --sans:"Inter",system-ui,-apple-system,sans-serif;
+    --pad:clamp(20px,4vw,56px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0a0a0a;color:var(--ink);font-family:var(--sans);font-size:15px;
+       line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .bg{position:fixed;inset:0;z-index:0;background:url("../assets/bg.webp") center center / cover no-repeat;opacity:.18}
+  .bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,10,10,.86) 0%,rgba(10,10,10,.94) 45%,rgba(10,10,10,.98) 100%)}
+  body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:9;opacity:.06;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+  header{position:relative;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:18px var(--pad);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    border-bottom:1px solid var(--line-soft)}
+  header .brand{font-weight:500}
+  header nav{display:flex;gap:clamp(14px,3vw,30px)}
+  header nav a{opacity:.72;padding:14px 2px;min-height:44px;display:inline-flex;align-items:center;
+    border-bottom:1px solid transparent;transition:opacity .25s,border-color .25s}
+  header nav a:hover{opacity:1;border-bottom-color:var(--ink)}
+  main{position:relative;z-index:2;max-width:720px;margin:0 auto;
+       padding:clamp(38px,8vh,84px) var(--pad) clamp(56px,10vh,110px)}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+  h1{font-family:var(--display);font-weight:500;font-size:clamp(38px,8vw,78px);line-height:1.0;
+     letter-spacing:-.01em;margin-bottom:22px}
+  .lede{font-family:var(--serif);font-size:clamp(16px,2.2vw,19px);line-height:1.7;color:#cfcdc7;
+        max-width:46ch;font-style:italic;margin-bottom:clamp(30px,5vh,46px)}
+  figure{margin:0 0 clamp(34px,6vh,54px)}
+  figure.narrow img{display:block;width:auto;max-width:100%;max-height:min(42vh,400px);
+                    margin:0 auto;filter:saturate(.9) contrast(1.02)}
+  figure.narrow figcaption{text-align:center}
+  figcaption{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+             margin-top:14px}
+  .prose p{font-family:var(--serif);font-size:clamp(16px,1.9vw,17.5px);line-height:1.85;
+           color:#d2d0ca;margin:0 0 1.35em;max-width:62ch}
+  .prose p:first-of-type::first-letter{font-family:var(--display);font-size:3.1em;line-height:.86;
+           float:left;padding:.06em .12em 0 0;color:var(--ink)}
+  .prose em{font-style:italic;color:#e4e2dc}
+  blockquote{margin:clamp(30px,5vh,48px) 0;padding:22px 0 22px 24px;border-left:2px solid var(--line);
+             font-family:var(--display);font-weight:400;font-size:clamp(19px,2.8vw,26px);line-height:1.35;
+             color:#e7e4dd;max-width:34ch}
+  .sign{font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:clamp(34px,6vh,52px)}
+  footer{position:relative;z-index:2;border-top:1px solid var(--line-soft);
+         padding:22px var(--pad) 40px;display:flex;flex-wrap:wrap;gap:14px 26px;
+         justify-content:space-between;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  footer a{border-bottom:1px solid transparent;padding:12px 0;min-height:44px;display:inline-flex;align-items:center}
+  footer a:hover{color:var(--ink);border-bottom-color:var(--line)}
+  @media (max-width:640px){
+    h1{font-size:clamp(34px,12vw,52px)}
+    .prose p{font-size:16px;line-height:1.8}
+    blockquote{font-size:19px;padding-left:18px}
+    figure.narrow img{max-width:100%;max-height:none}
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<header>
+  <a class="brand" href="../index.html">Lukas Lima</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../words/index.html">Words</a>
+    <a href="../writeups/index.html">Write-ups</a>
+  </nav>
+</header>
+
+<main>
+  <div class="kicker">Words · 20 Oct 2026</div>
+  <h1>black coffee</h1>
+  <p class="lede">Black coffee is supposed to be bitter. That's not a flaw in the drink — it's the drink.</p>
+
+  <figure class="narrow">
+    <img src="../assets/black-coffee.webp" alt="A white cup of black coffee on a wooden desk, keyboard blurred behind it.">
+    <figcaption>My desk, 3 a.m., no sugar</figcaption>
+  </figure>
+
+  <article class="prose">
+    <p>The moment you add sugar, you're not drinking black coffee anymore. You're drinking something you talked yourself into.</p>
+
+    <p>I do this with people. With opportunities. With things I already know aren't right. Something doesn't fit, and instead of letting it be a bad fit, I start sweetening: staying a little longer, explaining a little more, giving one more chance, working twice as hard to feel half as good. I call it effort. Most of the time it's just fear with a good work ethic.</p>
+
+    <p>When a relationship hurts, the sugar is tolerating disrespect and shrinking your boundaries, then calling it patience. When you're lonely, the sugar is saying yes to people who make you feel smaller just so the room isn't empty. When something won't come together, the sugar is forcing it and calling that persistence.</p>
+
+    <p>It isn't that we're stupid. It's that bitter is scary. Bitter means admitting this thing might not be for me, and then sitting in the quiet with that.</p>
+
+    <blockquote>Sweetness you have to force isn't sweetness. It's a delay.</blockquote>
+
+    <p>The reality doesn't change because you covered the taste — you just postpone meeting it, and pay interest in the meantime.</p>
+
+    <p>Some things are meant to taste like that. Not everything is a problem to solve. Some things are information: this isn't yours, this isn't mutual, this won't hold. The bitterness is doing its job.</p>
+
+    <p>Learning to sit with it is the whole skill. Not fixing, not sweetening. Just letting it be what it is long enough to hear what it's telling you.</p>
+
+    <p>Not everything needs fixing. Not everything needs sugar.</p>
+
+    <p class="sign">— Lukas</p>
+  </article>
+</main>
+
+<footer>
+  <a href="../index.html">← Back home</a>
+  <a href="../words/index.html">More words</a>
+  <a href="mailto:lukaslima.xix@gmail.com">lukaslima.xix@gmail.com</a>
+</footer>
+</body>
+</html>
