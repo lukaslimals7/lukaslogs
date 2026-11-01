@@ -268,14 +268,37 @@
 │   ├── registry.py    ← register, describe, execute tools
 │   ├── schema.py      ← auto-derive JSON schema from Python signatures
 │   └── executor.py    ← the safe path: approve → run → audit → cap
-├── plugins/           ← 8 built-in tools (read, search, shell, http, notes…)
+├── plugins/           ← 20 built-in tools (shell, files, web, memory, notes…)</code></pre>
 ├── policy/            ← permissions, approval prompt, audit log
 ├── memory/            ← every turn persisted, restored on next launch
 └── agent/             ← the TUI (ANSI, stdlib-only) + entry point</code></pre>
   </section>
 
   <section>
-    <p class="sec-kicker">03 / Extending it</p>
+    <p class="sec-kicker">03 / The toolbelt</p>
+    <h2>Twenty tools, no dependencies.</h2>
+    <div class="prose">
+      <p>Everything Mahoraga can do to your machine is one of these, and every one of them
+      runs through the same executor: classify, approve, run, audit, cap the result.</p>
+    </div>
+<pre><code>shell        shell · bash · run_command   (one persistent session — cd sticks)
+             process_manage             (background jobs, polled not blocked)
+files        read_file · write_file · edit_file · list_dir · search_files
+web          http_get · web_search · web_extract
+memory       remember · recall · session_search
+notes        get_notes · set_notes
+utility      todo_list · clarify · estimate_tokens</code></pre>
+    <div class="prose" style="margin-top:20px">
+      <p>The three shell names share a session, so <code>cd</code> carries between calls and
+      the directory in the status bar is the one commands actually run in.
+      <code>process_manage</code> exists because builds outlive a turn, and
+      <code>clarify</code> lets the model ask a question instead of guessing for three
+      tools straight.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-kicker">04 / Extending it</p>
     <h2>Add a tool in one function.</h2>
     <div class="prose">
       <p>Three ways, from simplest to most control — one function, a plugin file,
@@ -303,7 +326,7 @@ reg.register("my_tool", desc, schema, my_tool)</code></pre>
   </section>
 
   <section>
-    <p class="sec-kicker">04 / Memory &amp; policy</p>
+    <p class="sec-kicker">05 / Memory &amp; policy</p>
     <h2>It remembers. It asks before it gets reckless.</h2>
     <div class="prose">
       <p>Every turn is stored in <code>~/.mahoraga/memory.db</code>. On next launch,
@@ -317,7 +340,7 @@ reg.register("my_tool", desc, schema, my_tool)</code></pre>
   </section>
 
   <section>
-    <p class="sec-kicker">05 / Get started</p>
+    <p class="sec-kicker">06 / Get started</p>
     <h2>Clone it. Run it.</h2>
     <div class="prose">
       <p>All you need is <strong>Python 3.10+</strong> and a real terminal — no
